@@ -5,7 +5,7 @@ import (
 	"errors"
 
 	"github.com/maryamjamal7/smart-light-city/domain/model"
-	"github.com/maryamjamal7/smart-light-city/ports"
+	"github.com/maryamjamal7/smart-light-city/domain/ports"
 )
 
 type AreaService struct {
