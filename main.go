@@ -169,7 +169,7 @@ func main() {
 	r.HandleFunc("/city/dim", api.HandleCityScheduleDim(cityManager)).Methods("POST")
 
 	// 9. Start HTTP server
-	log.Println("🚀 Server running on http://localhost:8080")
+	log.Println("🚀 Server running on http://localhost:8081")
 	log.Fatal(http.ListenAndServe(":8081", r))
 
 }
