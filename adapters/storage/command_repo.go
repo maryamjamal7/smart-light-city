@@ -41,7 +41,7 @@ func (r *commandRepo) GetByID(ctx context.Context, id uint) (*model.Command, err
 func (r *commandRepo) List(ctx context.Context) ([]model.Command, error) {
 	var cmds []model.Command
 	err := r.db.WithContext(ctx).
-		Order("scheduled_at DESC").
+		Order("scheduled_for DESC").
 		Find(&cmds).Error
 	return cmds, err
 }
@@ -50,7 +50,7 @@ func (r *commandRepo) List(ctx context.Context) ([]model.Command, error) {
 func (r *commandRepo) ListPending(ctx context.Context, now time.Time) ([]model.Command, error) {
 	var cmds []model.Command
 	err := r.db.WithContext(ctx).
-		Where("scheduled_at <= ? AND executed_at IS NULL", now).
+		Where("scheduled_for <= ? AND executed_at IS NULL", now).
 		Find(&cmds).Error
 	return cmds, err
 }
