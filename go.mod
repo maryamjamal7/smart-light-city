@@ -1,5 +1,4 @@
 module github.com/maryamjamal7/smart-light-city
-
 go 1.24.5
 
 require (
