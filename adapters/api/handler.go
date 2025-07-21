@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -56,5 +57,65 @@ func HandleCityScheduleDim(manager *service.CityManager) http.HandlerFunc {
 		}
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte("Dimming scheduled"))
+	}
+}
+func RegisterInternalRoutes(r *mux.Router, cmdSvc *service.CommandService) {
+	r.HandleFunc("/internal/execute/{id}", func(w http.ResponseWriter, r *http.Request) {
+		idStr := mux.Vars(r)["id"]
+		id, err := strconv.Atoi(idStr)
+		if err != nil {
+			http.Error(w, "invalid ID", http.StatusBadRequest)
+			return
+		}
+
+		cmds, err := cmdSvc.GetPendingCommands(r.Context(), time.Now().Add(1*time.Minute))
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		for _, cmd := range cmds {
+			if cmd.ID == uint(id) {
+				if err := cmdSvc.ExecuteCommand(r.Context(), &cmd); err != nil {
+					http.Error(w, err.Error(), http.StatusInternalServerError)
+					return
+				}
+				w.Write([]byte("✅ Command executed"))
+				return
+			}
+		}
+		http.Error(w, "command not found", http.StatusNotFound)
+	}).Methods("POST")
+}
+
+func executeCommandHandler(cmdSvc *service.CommandService) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		idStr := mux.Vars(r)["id"]
+		id, err := strconv.Atoi(idStr)
+		if err != nil {
+			http.Error(w, "Invalid command ID", http.StatusBadRequest)
+			return
+		}
+
+		cmds, err := cmdSvc.ListCommands(r.Context())
+		if err != nil {
+			http.Error(w, "Error fetching commands", http.StatusInternalServerError)
+			return
+		}
+
+		for _, cmd := range cmds {
+			if int(cmd.ID) == id {
+				err := cmdSvc.ExecuteCommand(r.Context(), &cmd)
+				if err != nil {
+					http.Error(w, "Failed to execute command", http.StatusInternalServerError)
+					return
+				}
+				w.WriteHeader(http.StatusOK)
+				w.Write([]byte("Executed"))
+				return
+			}
+		}
+
+		http.Error(w, "Command not found", http.StatusNotFound)
 	}
 }
