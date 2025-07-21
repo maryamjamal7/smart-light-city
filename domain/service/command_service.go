@@ -23,10 +23,11 @@ func NewCommandService(repo ports.CommandRepository, mqtt ports.MQTTPublisher) *
 
 // ScheduleCommand adds a new command to the database
 func (s *CommandService) ScheduleCommand(ctx context.Context, cmd *model.Command) error {
-	if cmd.CommandData == nil {
+	if len(cmd.CommandData) == 0 {
 		return errors.New("command data is required")
 	}
-	if cmd.ScheduledAt == nil {
+
+	if cmd.ScheduledFor == nil {
 		return errors.New("scheduled time is required")
 	}
 	return s.repo.Create(ctx, cmd)

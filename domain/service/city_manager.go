@@ -80,10 +80,10 @@ func (m *CityManager) ScheduleDimForAll(ctx context.Context, dim int, at time.Ti
 
 			for _, light := range lights {
 				cmd := &model.Command{
-					AreaID:      &zone.ID,
-					LumiereID:   &light.ID,
-					CommandData: buildCommandJSON(false, dim),
-					ScheduledAt: &at,
+					AreaID:       &zone.ID,
+					LumiereID:    &light.ID,
+					CommandData:  buildCommandJSON(false, dim),
+					ScheduledFor: &at,
 				}
 				err := m.commandService.ScheduleCommand(ctx, cmd)
 				if err != nil {
