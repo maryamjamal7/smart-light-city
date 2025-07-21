@@ -37,7 +37,7 @@ func (s *DkronScheduler) Start() {
 			}
 		}
 	}()
-	log.Println("✅ Dkron scheduler started")
+	log.Println(" Dkron scheduler started")
 }
 
 // Stop ends the periodic job checking
@@ -61,10 +61,10 @@ func (s *DkronScheduler) runScheduledJobs() {
 
 		// Call the service logic to apply the command
 		if err := s.cmdService.ExecuteCommand(ctx, &cmd); err != nil {
-			log.Printf("❌ Failed to execute command ID %d: %v", cmd.ID, err)
+			log.Printf("  Failed to execute command ID %d: %v", cmd.ID, err)
 			continue
 		}
 
-		log.Printf("✅ Executed command ID %d", cmd.ID)
+		log.Printf(" Executed command ID %d", cmd.ID)
 	}
 }

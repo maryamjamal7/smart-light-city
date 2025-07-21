@@ -25,7 +25,7 @@ type LumiereRepository interface {
 
 type CommandRepository interface {
 	Create(ctx context.Context, cmd *model.Command) error
-	ListPending(ctx context.Context, currentTime time.Time) ([]model.Command, error) // ✅ FIXED
+	ListPending(ctx context.Context, currentTime time.Time) ([]model.Command, error) //  FIXED
 	MarkExecuted(ctx context.Context, id uint) error
 	GetByID(ctx context.Context, id uint) (*model.Command, error)
 	List(ctx context.Context) ([]model.Command, error)

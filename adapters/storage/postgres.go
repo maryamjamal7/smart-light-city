@@ -42,7 +42,7 @@
 // 		return nil, err
 // 	}
 
-// 	log.Println("✅ Connected to PostgreSQL successfully")
+// 	log.Println(" Connected to PostgreSQL successfully")
 // 	return db, nil
 // }
 
@@ -71,7 +71,7 @@ func ConnectPostgres() (*gorm.DB, error) {
 	}
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.Printf("❌ Failed to connect to DB: %v", err)
+		log.Printf("  Failed to connect to DB: %v", err)
 		return nil, err
 	}
 	return db, nil

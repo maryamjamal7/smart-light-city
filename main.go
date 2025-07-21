@@ -16,15 +16,15 @@
 // // 	// 1. Connect to database
 // // 	db, err := storage.ConnectPostgres()
 // // 	if err != nil {
-// // 		log.Fatal("❌ Failed to connect to DB:", err)
+// // 		log.Fatal(" Failed to connect to DB:", err)
 // // 	}
 
 // // 	// 2. Migrate models
 // // 	err = db.AutoMigrate(&model.Area{}, &model.Lumiere{}, &model.Command{})
 // // 	if err != nil {
-// // 		log.Fatal("❌ Auto-migration failed:", err)
+// // 		log.Fatal("  Auto-migration failed:", err)
 // // 	}
-// // 	log.Println("✅ Database schema migrated")
+// // 	log.Println("Database schema migrated")
 
 // // 	// 3. Initialize repositories and services
 
@@ -66,7 +66,7 @@
 // 	// 1. Connect to database
 // 	db, err := storage.ConnectPostgres()
 // 	if err != nil {
-// 		log.Fatal("❌ Failed to connect to DB:", err)
+// 		log.Fatal(" Failed to connect to DB:", err)
 // 	}
 // 	mqttPub, err := mqtt.NewMQTTPublisher("tcp://localhost:1883", "smart-light-city")
 // 	if err != nil {
@@ -76,9 +76,9 @@
 // 	// 2. Auto migrate models
 // 	err = db.AutoMigrate(&model.Area{}, &model.Lumiere{}, &model.Command{})
 // 	if err != nil {
-// 		log.Fatal("❌ Auto-migration failed:", err)
+// 		log.Fatal(" Auto-migration failed:", err)
 // 	}
-// 	log.Println("✅ Database schema migrated")
+// 	log.Println(" Database schema migrated")
 
 // 	// 3. Initialize Repositories
 // 	areaRepo := storage.NewAreaRepository(db)
@@ -102,7 +102,7 @@
 // 	r.HandleFunc("/city/dim", api.HandleCityScheduleDim(cityManager)).Methods("POST")
 
 //		// 6. Start Server
-//		log.Println("🚀 Server running on http://localhost:8080")
+//		log.Println(" Server running on http://localhost:8080")
 //		log.Fatal(http.ListenAndServe(":8080", r))
 //	}
 package main
@@ -126,22 +126,22 @@ func main() {
 	// 1. Connect to database
 	db, err := storage.ConnectPostgres()
 	if err != nil {
-		log.Fatal("❌ Failed to connect to DB:", err)
+		log.Fatal("  Failed to connect to DB:", err)
 	}
 
 	// 2. Connect to MQTT broker
 	mqttPub, err := mqtt.NewMQTTPublisher("tcp://localhost:1883", "smart-light-city")
 	if err != nil {
-		log.Fatal("❌ MQTT connection failed:", err)
+		log.Fatal("  MQTT connection failed:", err)
 	}
-	log.Println("✅ Connected to MQTT broker")
+	log.Println(" Connected to MQTT broker")
 
 	// 3. Auto migrate models
 	err = db.AutoMigrate(&model.Area{}, &model.Lumiere{}, &model.Command{})
 	if err != nil {
-		log.Fatal("❌ Auto-migration failed:", err)
+		log.Fatal("  Auto-migration failed:", err)
 	}
-	log.Println("✅ Database schema migrated")
+	log.Println(" Database schema migrated")
 
 	// 4. Initialize Repositories
 	areaRepo := storage.NewAreaRepository(db)
